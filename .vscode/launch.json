@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "CESOP API (local)",
+      "request": "launch",
+      "mainClass": "com.example.cesop.CesopApplication",
+      "projectName": "cesop-api"
+    },
+    {
+      "type": "java",
+      "name": "CESOP API (public mode)",
+      "request": "launch",
+      "mainClass": "com.example.cesop.CesopApplication",
+      "projectName": "cesop-api",
+      "args": "--spring.profiles.active=public"
+    }
+  ]
+}

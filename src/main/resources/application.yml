@@ -1,0 +1,23 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+cesop:
+  # Official schemas from BZSt ("Amtlicher Datensatz CESOP": DIP v2 + CESOP XSD v4.03), shipped inside this project.
+  # Every uploaded or generated file is validated against them, then against the EU business rules.
+  # IMPORTANT: list BOTH files. dip.xsd only checks the DIP envelope (dip:data is "anyType"); the CESOP content
+  # itself is checked by cesop_PaymentData.xsd. To switch off, use:  xsd-files: []
+  xsd-files:
+    - classpath:xsd/Amtlicher_Datensatz_CESOP/dip.xsd
+    - classpath:xsd/Amtlicher_Datensatz_CESOP/cesop_PaymentData.xsd
+  xsd-base-path: Amtlicher_Datensatz_CESOP   # used in generated xsi:schemaLocation
+  default-environment: TEST                  # TEST | PROD (as agreed with BZSt)
+  default-transmitting-country: DE
+  collect:
+    default-threshold: 25      # payee is reportable when counted payments are MORE than this - verify against EU guidance
+  submission:
+    channel: outbox            # only the file outbox is built in; add a class per tax authority
+    dir: data/submissions      # every stored message + status history
+    outbox-dir: data/outbox    # files ready for upload

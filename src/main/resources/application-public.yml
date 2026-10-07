@@ -1,0 +1,12 @@
+# Profile for the free public checker:  --spring.profiles.active=public
+server:
+  forward-headers-strategy: framework   # real client IP behind a reverse proxy (Caddy/nginx/Render)
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      file-size-threshold: 5MB           # keep uploads in memory, never written to disk
+cesop:
+  public-mode: true
+  rate-limit-per-hour: 30

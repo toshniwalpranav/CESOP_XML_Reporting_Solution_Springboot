@@ -1,0 +1,6 @@
+1. Extract this zip (short path, e.g. C:\cesop).
+2. VS Code: File > Open Folder > select the folder that contains pom.xml.
+3. Click "Yes, I trust the authors". Accept "Install recommended extensions".
+4. Wait until the bottom bar finishes "Importing Maven project" (first time downloads libraries).
+5. Run: press F5 (choose "CESOP API (local)"), or in the terminal: mvn spring-boot:run
+6. Test: open http://localhost:8080 or use the commands in README.md

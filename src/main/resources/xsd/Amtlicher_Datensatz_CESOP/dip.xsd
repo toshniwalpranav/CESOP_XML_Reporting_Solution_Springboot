@@ -1,0 +1,32 @@
+<!-- Mit XMLSpy v2023 sp1 (x64) (http://www.altova.com) von L Bk (evaluation) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://itzbund.de/ozg/bzst/post/dip/v2/" targetNamespace="http://itzbund.de/ozg/bzst/post/dip/v2/" elementFormDefault="qualified">
+	<xs:include schemaLocation="dip-types.xsd"/>
+	<xs:element name="dip" type="DipType"/>
+	<xs:complexType name="DipType">
+		<xs:sequence>
+			<xs:element name="header" type="DipHeaderType"/>
+			<xs:element name="body" type="DipBodyType"/>
+		</xs:sequence>
+		<xs:attribute name="version" type="schemaVersionType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="DipHeaderType">
+		<xs:sequence>
+			<xs:element name="consignment" type="ConsignmentType"/>
+			<xs:element name="application" type="ApplicationType"/>
+		</xs:sequence>
+		<xs:attribute name="environment" type="environmentType" use="required">
+			<xs:annotation>
+				<xs:documentation>Angabe der Zielumgebung, PROD für Produktivlieferungen, TEST für Testumgebungen</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DipBodyType">
+		<xs:sequence>
+			<xs:element name="consignmentItem" type="ConsignmentItemType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Multipliztiät zur Lieferung mehrerer Anträge/Meldungen in einer Lieferung</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

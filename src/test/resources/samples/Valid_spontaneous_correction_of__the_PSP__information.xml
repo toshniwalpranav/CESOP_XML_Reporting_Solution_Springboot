@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dip:dip version="2.0" xmlns:dip="http://itzbund.de/ozg/bzst/post/dip/v2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://itzbund.de/ozg/bzst/post/dip/v2/ Amtlicher_Datensatz_CESOP/dip.xsd">
+	<dip:header environment="TEST">
+		<dip:consignment>
+			<dip:customerIdentifier>
+				<dip:identityProvider>BZST-CERT</dip:identityProvider>
+				<dip:identifier>BZ123456789</dip:identifier>
+			</dip:customerIdentifier>
+			<dip:creationTime>2025-01-08T16:00:00</dip:creationTime>
+			<dip:transferticketId>09dedc8e-d2f8-4293-ad9e-9b50abce961c</dip:transferticketId>
+		</dip:consignment>
+		<dip:application code="CESOP"/>
+	</dip:header>
+	<dip:body>
+		<dip:consignmentItem consignmentItemPosition="1">
+			<dip:bopAccountId>a</dip:bopAccountId>
+			<dip:data>
+				<cesop:CESOP xmlns:cm="urn:eu:taxud:commontypes:v1" xmlns:cesop="urn:ec.europa.eu:taxud:fiscalis:cesop:v1" version="4.03" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ec.europa.eu:taxud:fiscalis:cesop:v1 Amtlicher_Datensatz_CESOP/cesop_PaymentData.xsd">
+					<cesop:MessageSpec>
+						<cesop:TransmittingCountry>DE</cesop:TransmittingCountry>
+						<cesop:MessageType>PMT</cesop:MessageType>
+						<cesop:MessageTypeIndic>CESOP101</cesop:MessageTypeIndic>
+						<cesop:MessageRefId>0fe30c04-a6b7-4cca-b17d-5b2654246609</cesop:MessageRefId>
+						<cesop:CorrMessageRefId>fee3c33d-1354-46e1-b2a2-4a22b5657bf2</cesop:CorrMessageRefId>
+						<cesop:ReportingPeriod>
+							<cesop:Quarter>4</cesop:Quarter>
+							<cesop:Year>2024</cesop:Year>
+						</cesop:ReportingPeriod>
+						<cesop:Timestamp>2025-01-08T14:02:53Z</cesop:Timestamp>
+					</cesop:MessageSpec>
+					<cesop:PaymentDataBody>
+						<cesop:ReportingPSP>
+							<cesop:PSPId PSPIdType="BIC">TRSYDEFFXXX</cesop:PSPId>
+							<cesop:Name nameType="LEGAL">360 TREASURY SYSTEMS Germany SA</cesop:Name>
+						</cesop:ReportingPSP>
+					</cesop:PaymentDataBody>
+				</cesop:CESOP>
+			</dip:data>
+		</dip:consignmentItem>
+	</dip:body>
+</dip:dip>

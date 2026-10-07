@@ -1,0 +1,7 @@
+{
+  "header": { "environment": "TEST", "identityProvider": "BZST-CERT", "identifier": "BZ123456789", "bopAccountId": "a" },
+  "reportingPsp": { "idType": "BIC", "id": "TRSYDEFFXXX", "name": "360 TREASURY SYSTEMS AG", "nameType": "LEGAL" },
+  "quarter": 4,
+  "year": 2024,
+  "threshold": 25
+}

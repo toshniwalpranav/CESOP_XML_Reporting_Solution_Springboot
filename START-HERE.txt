@@ -1,0 +1,9 @@
+CESOP API - how to use
+
+1. Extract this zip to a short folder, for example C:\cesop-v2  (right-click > Extract All).
+2. Open the extracted folder. You must see pom.xml, src, examples directly inside.
+3. Double-click run-tests.bat   -> expect "Tests run: 14, Failures: 0" and BUILD SUCCESS.
+4. Double-click start-server.bat -> wait for "Started CesopApplication", then open http://localhost:8080
+5. To edit code: open VS Code > File > Open Folder > select this extracted folder.
+
+Needs Java 17+ and Maven (already installed on your PC).

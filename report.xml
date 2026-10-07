@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?><dip:dip xmlns:dip="http://itzbund.de/ozg/bzst/post/dip/v2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://itzbund.de/ozg/bzst/post/dip/v2/ Amtlicher_Datensatz_CESOP/dip.xsd">
+  <dip:header environment="TEST">
+    <dip:consignment>
+      <dip:customerIdentifier>
+        <dip:identityProvider>BZST-CERT</dip:identityProvider>
+        <dip:identifier>BZ123456789</dip:identifier>
+      </dip:customerIdentifier>
+      <dip:creationTime>2026-10-07T08:20:26</dip:creationTime>
+      <dip:transferticketId>430cc810-a6a4-4db8-9a25-9981211b572b</dip:transferticketId>
+    </dip:consignment>
+    <dip:application code="CESOP"/>
+  </dip:header>
+  <dip:body>
+    <dip:consignmentItem consignmentItemPosition="1">
+      <dip:bopAccountId>a</dip:bopAccountId>
+      <dip:data>
+        <cesop:CESOP xmlns:cesop="urn:ec.europa.eu:taxud:fiscalis:cesop:v1" xmlns:cm="urn:eu:taxud:commontypes:v1" version="4.03" xsi:schemaLocation="urn:ec.europa.eu:taxud:fiscalis:cesop:v1 Amtlicher_Datensatz_CESOP/cesop_PaymentData.xsd">
+          <cesop:MessageSpec>
+            <cesop:TransmittingCountry>DE</cesop:TransmittingCountry>
+            <cesop:MessageType>PMT</cesop:MessageType>
+            <cesop:MessageTypeIndic>CESOP100</cesop:MessageTypeIndic>
+            <cesop:MessageRefId>19c95202-81da-497e-aebd-dc934e786d46</cesop:MessageRefId>
+            <cesop:ReportingPeriod>
+              <cesop:Quarter>4</cesop:Quarter>
+              <cesop:Year>2024</cesop:Year>
+            </cesop:ReportingPeriod>
+            <cesop:Timestamp>2026-10-07T08:20:26Z</cesop:Timestamp>
+          </cesop:MessageSpec>
+          <cesop:PaymentDataBody>
+            <cesop:ReportingPSP>
+              <cesop:PSPId PSPIdType="BIC">TRSYDEFFXXX</cesop:PSPId>
+              <cesop:Name nameType="LEGAL">360 TREASURY SYSTEMS AG</cesop:Name>
+            </cesop:ReportingPSP>
+            <cesop:ReportedPayee>
+              <cesop:Name nameType="BUSINESS">German Company AG</cesop:Name>
+              <cesop:Country>DE</cesop:Country>
+              <cesop:Address legalAddressType="CESOP303">
+                <cm:CountryCode>DE</cm:CountryCode>
+                <cm:AddressFree>Beispielstrasse 3, 11712 Berlin</cm:AddressFree>
+              </cesop:Address>
+              <cesop:TAXIdentification>
+                <cesop:VATId issuedBy="DE">DE112233445</cesop:VATId>
+              </cesop:TAXIdentification>
+              <cesop:AccountIdentifier CountryCode="DE" type="IBAN">DE32503302010298200040</cesop:AccountIdentifier>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-001</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-01T10:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">20.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-002</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-02T11:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">21.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">NL</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-003</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-03T12:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">22.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-004</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-04T13:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">23.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">IT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-005</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-05T14:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">24.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">AT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-006</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-06T10:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">25.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-007</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-07T11:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">26.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">NL</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-008</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-08T12:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">27.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-009</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-09T13:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">28.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">IT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-010</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-10T14:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">29.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">AT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-011</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-11T10:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">30.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-012</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-12T11:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">31.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">NL</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-013</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-13T12:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">32.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-014</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-14T13:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">33.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">IT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-015</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-15T14:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">34.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">AT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-016</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-16T10:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">35.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-017</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-17T11:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">36.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">NL</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-018</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-18T12:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">37.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-019</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-19T13:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">38.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">IT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-020</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-20T14:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">39.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">AT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-021</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-21T10:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">40.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-022</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-22T11:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">41.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">NL</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-023</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-23T12:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">42.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-024</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-24T13:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">43.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">IT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-025</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-25T14:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">44.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">AT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-026</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-26T10:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">45.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-027</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-27T11:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">46.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">NL</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-028</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-28T12:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">47.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-029</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-29T13:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">48.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">IT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="false">
+                <cesop:TransactionIdentifier>A-030</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-11-30T14:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">49.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">AT</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:ReportedTransaction IsRefund="true">
+                <cesop:TransactionIdentifier>A-REF1</cesop:TransactionIdentifier>
+                <cesop:DateTime transactionDateType="CESOP701">2024-12-20T09:00:00Z</cesop:DateTime>
+                <cesop:Amount currency="EUR">-20.50</cesop:Amount>
+                <cesop:PaymentMethod>
+                  <cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+                </cesop:PaymentMethod>
+                <cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+                <cesop:PayerMS PayerMSSource="IBAN">FR</cesop:PayerMS>
+              </cesop:ReportedTransaction>
+              <cesop:DocSpec>
+                <cm:DocTypeIndic>CESOP1</cm:DocTypeIndic>
+                <cm:DocRefId>dbdfb090-af24-478e-9949-8b08c8c13f78</cm:DocRefId>
+              </cesop:DocSpec>
+            </cesop:ReportedPayee>
+          </cesop:PaymentDataBody>
+        </cesop:CESOP>
+      </dip:data>
+    </dip:consignmentItem>
+  </dip:body>
+</dip:dip>

@@ -1,0 +1,42 @@
+transaction_id,date_time,amount,currency,is_refund,payer_country,payee_name,payee_account,payee_vat,payee_address,payment_method,initiated_physical
+A-001,2024-11-01T10:00:00Z,20.50,EUR,false,FR,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-002,2024-11-02T11:00:00Z,21.50,EUR,false,NL,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-003,2024-11-03T12:00:00Z,22.50,EUR,false,ES,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-004,2024-11-04T13:00:00Z,23.50,EUR,false,IT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-005,2024-11-05T14:00:00Z,24.50,EUR,false,AT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-006,2024-11-06T10:00:00Z,25.50,EUR,false,FR,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-007,2024-11-07T11:00:00Z,26.50,EUR,false,NL,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-008,2024-11-08T12:00:00Z,27.50,EUR,false,ES,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-009,2024-11-09T13:00:00Z,28.50,EUR,false,IT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-010,2024-11-10T14:00:00Z,29.50,EUR,false,AT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-011,2024-11-11T10:00:00Z,30.50,EUR,false,FR,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-012,2024-11-12T11:00:00Z,31.50,EUR,false,NL,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-013,2024-11-13T12:00:00Z,32.50,EUR,false,ES,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-014,2024-11-14T13:00:00Z,33.50,EUR,false,IT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-015,2024-11-15T14:00:00Z,34.50,EUR,false,AT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-016,2024-11-16T10:00:00Z,35.50,EUR,false,FR,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-017,2024-11-17T11:00:00Z,36.50,EUR,false,NL,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-018,2024-11-18T12:00:00Z,37.50,EUR,false,ES,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-019,2024-11-19T13:00:00Z,38.50,EUR,false,IT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-020,2024-11-20T14:00:00Z,39.50,EUR,false,AT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-021,2024-11-21T10:00:00Z,40.50,EUR,false,FR,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-022,2024-11-22T11:00:00Z,41.50,EUR,false,NL,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-023,2024-11-23T12:00:00Z,42.50,EUR,false,ES,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-024,2024-11-24T13:00:00Z,43.50,EUR,false,IT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-025,2024-11-25T14:00:00Z,44.50,EUR,false,AT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-026,2024-11-26T10:00:00Z,45.50,EUR,false,FR,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-027,2024-11-27T11:00:00Z,46.50,EUR,false,NL,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-028,2024-11-28T12:00:00Z,47.50,EUR,false,ES,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-029,2024-11-29T13:00:00Z,48.50,EUR,false,IT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-030,2024-11-30T14:00:00Z,49.50,EUR,false,AT,German Company AG,DE32 5033 0201 0298 2000 40,DE112233445,"Beispielstrasse 3, 11712 Berlin",Card payment,false
+A-REF1,2024-12-20T09:00:00Z,20.50,EUR,true,FR,German Company AG,DE32503302010298200040,DE112233445,,Card payment,false
+B-001,2024-11-10T12:00:00Z,99.00,EUR,false,FR,Small Shop GmbH,DE89370400440532013000,,,Bank transfer,false
+B-002,2024-11-11T12:00:00Z,99.00,EUR,false,FR,Small Shop GmbH,DE89370400440532013000,,,Bank transfer,false
+B-003,2024-11-12T12:00:00Z,99.00,EUR,false,FR,Small Shop GmbH,DE89370400440532013000,,,Bank transfer,false
+B-004,2024-11-13T12:00:00Z,99.00,EUR,false,FR,Small Shop GmbH,DE89370400440532013000,,,Bank transfer,false
+B-005,2024-11-14T12:00:00Z,99.00,EUR,false,FR,Small Shop GmbH,DE89370400440532013000,,,Bank transfer,false
+D-001,2024-11-01T08:00:00Z,10.00,EUR,false,DE,German Company AG,DE32503302010298200040,DE112233445,,Card payment,false
+D-002,2024-11-02T08:00:00Z,10.00,EUR,false,DE,German Company AG,DE32503302010298200040,DE112233445,,Card payment,false
+D-003,2024-11-03T08:00:00Z,10.00,EUR,false,DE,German Company AG,DE32503302010298200040,DE112233445,,Card payment,false
+O-001,2025-01-03T08:00:00Z,10.00,EUR,false,FR,German Company AG,DE32503302010298200040,DE112233445,,Card payment,false
+U-001,2024-11-05T08:00:00Z,10.00,EUR,false,US,German Company AG,DE32503302010298200040,DE112233445,,Card payment,false

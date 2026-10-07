@@ -1,0 +1,19 @@
+{
+  "header": { "environment": "TEST", "identityProvider": "BZST-CERT", "identifier": "BZ123456789", "bopAccountId": "a" },
+  "message": {
+    "messageTypeIndic": "CESOP100", "quarter": 4, "year": 2024,
+    "reportingPsp": { "idType": "BIC", "id": "TRSYDEFFXXX", "name": "360 TREASURY SYSTEMS AG", "nameType": "LEGAL" },
+    "payees": [{
+      "name": "German Company AG", "country": "DE",
+      "address": { "countryCode": "DE", "free": "Beispielstrasse 3, 11712 Berlin" },
+      "vatIds": [{ "issuedBy": "DE", "value": "112233445" }],
+      "accounts": [{ "countryCode": "DE", "type": "IBAN", "value": "DE32503302010298200040" }],
+      "transactions": [{
+        "refund": false, "transactionIdentifier": "13b024c3-f93c-4e47-8fc4-c932c577c03f",
+        "dateTime": "2024-12-03T11:53:25Z", "amount": 100.00, "currency": "EUR",
+        "paymentMethodType": "Bank transfer", "initiatedAtPhysicalPremises": false,
+        "payerMS": "FR", "pspRole": "Money Transfer operator"
+      }]
+    }]
+  }
+}

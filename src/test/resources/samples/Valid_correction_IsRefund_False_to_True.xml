@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dip:dip version="2.0" xmlns:dip="http://itzbund.de/ozg/bzst/post/dip/v2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://itzbund.de/ozg/bzst/post/dip/v2/ Amtlicher_Datensatz_CESOP/dip.xsd">
+	<dip:header environment="TEST">
+		<dip:consignment>
+			<dip:customerIdentifier>
+				<dip:identityProvider>BZST-CERT</dip:identityProvider>
+				<dip:identifier>BZ123456789</dip:identifier>
+			</dip:customerIdentifier>
+			<dip:creationTime>2025-01-08T16:00:00</dip:creationTime>
+			<dip:transferticketId>09dedc8e-d2f8-4293-ad9e-9b50abce961c</dip:transferticketId>
+		</dip:consignment>
+		<dip:application code="CESOP"/>
+	</dip:header>
+	<dip:body>
+		<dip:consignmentItem consignmentItemPosition="1">
+			<dip:bopAccountId>a</dip:bopAccountId>
+			<dip:data>
+				<cesop:CESOP xmlns:cm="urn:eu:taxud:commontypes:v1" xmlns:cesop="urn:ec.europa.eu:taxud:fiscalis:cesop:v1" version="4.03" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ec.europa.eu:taxud:fiscalis:cesop:v1 Amtlicher_Datensatz_CESOP/cesop_PaymentData.xsd">
+					<cesop:MessageSpec>
+						<cesop:TransmittingCountry>DE</cesop:TransmittingCountry>
+						<cesop:MessageType>PMT</cesop:MessageType>
+						<cesop:MessageTypeIndic>CESOP101</cesop:MessageTypeIndic>
+						<cesop:MessageRefId>b76456a7-ce8c-488e-8ef3-7e0f80fefb49</cesop:MessageRefId>
+						<cesop:CorrMessageRefId>ec8b9ede-f7e8-4104-858c-472680a8a9d6</cesop:CorrMessageRefId>
+						<cesop:SendingPSP>
+							<cesop:PSPId PSPIdType="BIC">PSPSFBM1234</cesop:PSPId>
+							<cesop:Name nameType="BUSINESS">PSP sending for branches</cesop:Name>
+						</cesop:SendingPSP>
+						<cesop:ReportingPeriod>
+							<cesop:Quarter>4</cesop:Quarter>
+							<cesop:Year>2024</cesop:Year>
+						</cesop:ReportingPeriod>
+						<cesop:Timestamp>2025-01-08T14:02:53Z</cesop:Timestamp>
+					</cesop:MessageSpec>
+					<cesop:PaymentDataBody>
+						<cesop:ReportingPSP>
+							<cesop:PSPId PSPIdType="BIC">TRSYDEFFXXX</cesop:PSPId>
+							<cesop:Name nameType="LEGAL">360 TREASURY SYSTEMS AG</cesop:Name>
+						</cesop:ReportingPSP>
+						<cesop:ReportedPayee>
+							<cesop:Name nameType="BUSINESS">German Company AG</cesop:Name>
+							<cesop:Country>DE</cesop:Country>
+							<cesop:Address legalAddressType="CESOP303">
+								<cm:CountryCode>DE</cm:CountryCode>
+								<cm:AddressFix>
+									<cm:Street>An der Küppe</cm:Street>
+									<cm:BuildingIdentifier>1</cm:BuildingIdentifier>
+									<cm:SuiteIdentifier>3</cm:SuiteIdentifier>
+									<cm:FloorIdentifier>2</cm:FloorIdentifier>
+									<cm:PostCode>53225</cm:PostCode>
+									<cm:City>Bonn</cm:City>
+									<cm:CountrySubentity>NRW</cm:CountrySubentity>
+								</cm:AddressFix>
+							</cesop:Address>
+							<cesop:EmailAddress>cesop@bzst.bund.de</cesop:EmailAddress>
+							<cesop:WebPage>https://www.bzst.de/DE/Unternehmen/Umsatzsteuer/CESOP/cesop_node.html</cesop:WebPage>
+							<cesop:TAXIdentification>
+								<cesop:VATId issuedBy="DE">112233445</cesop:VATId>
+							</cesop:TAXIdentification>
+							<cesop:AccountIdentifier CountryCode="DE" type="IBAN">DE32503302010298200040</cesop:AccountIdentifier>
+							<cesop:ReportedTransaction IsRefund="true">
+								<cesop:TransactionIdentifier>031ee601-854f-4fba-bd9d-bcae7815a310</cesop:TransactionIdentifier>
+								<cesop:DateTime transactionDateType="CESOP701">2024-12-03T11:53:25Z</cesop:DateTime>
+								<cesop:Amount currency="EUR">-100.00</cesop:Amount>
+								<cesop:PaymentMethod>
+									<cm:PaymentMethodType>Card payment</cm:PaymentMethodType>
+								</cesop:PaymentMethod>
+								<cesop:InitiatedAtPhysicalPremisesOfMerchant>false</cesop:InitiatedAtPhysicalPremisesOfMerchant>
+								<cesop:PayerMS PayerMSSource="IBAN">ES</cesop:PayerMS>
+								<cesop:PSPRole>
+									<cm:PSPRoleType>Payment Processor</cm:PSPRoleType>
+								</cesop:PSPRole>
+							</cesop:ReportedTransaction>
+							<cesop:DocSpec>
+								<cm:DocTypeIndic>CESOP2</cm:DocTypeIndic>
+								<cm:DocRefId>48610c19-7a80-4048-b594-28fec59a341d</cm:DocRefId>
+								<cm:CorrDocRefId>5785bfa7-2bd0-475c-ad41-0118991e1336</cm:CorrDocRefId>
+							</cesop:DocSpec>
+						</cesop:ReportedPayee>
+					</cesop:PaymentDataBody>
+				</cesop:CESOP>
+			</dip:data>
+		</dip:consignmentItem>
+	</dip:body>
+</dip:dip>
