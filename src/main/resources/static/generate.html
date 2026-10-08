@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CESOP XML - Generate</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--tx:#1b2430;--mut:#667085;--bd:#d5dbe3;--pri:#1f5fbf;--ok:#12805c;--er:#c0392b}
+@media(prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1b222b;--tx:#e8ecf1;--mut:#97a3b3;--bd:#2f3946;--pri:#5b9dff;--ok:#3ecf9a;--er:#ff7b6b}}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--tx)}
+header{display:flex;gap:8px;align-items:center;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--bd)}
+header b{margin-right:16px;font-size:16px}
+.tab{padding:6px 14px;border-radius:6px;border:1px solid var(--bd);color:var(--mut)}
+.tab.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.tab.off{opacity:.5}
+.tab[id]{cursor:pointer}
+[hidden]{display:none!important}
+textarea{font-family:Consolas,monospace}
+.cmp th{width:24%}.cmp td:last-child{font-family:inherit;color:var(--mut);width:34%}
+select,textarea,input[type=text]{padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--tx);font:inherit;width:100%;margin-bottom:10px}
+main{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 20px;max-width:1300px;margin:auto}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:16px}
+h2{margin:0 0 12px;font-size:15px}
+.drop{border:2px dashed var(--bd);border-radius:8px;padding:18px;text-align:center;color:var(--mut);cursor:pointer;margin-bottom:12px}
+.drop.over{border-color:var(--pri);background:rgba(31,95,191,.08)}
+.drop.has{border-style:solid;border-color:var(--ok);color:var(--tx)}
+button{background:var(--pri);color:#fff;border:0;border-radius:6px;padding:9px 18px;font-size:14px;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.sec{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);vertical-align:top}
+th{color:var(--mut);font-weight:600;width:42%}
+td{font-family:Consolas,monospace;word-break:break-all}
+.msg{margin-top:10px;padding:8px 10px;border-radius:6px;display:none}
+.msg.ok{display:block;background:rgba(18,128,92,.12);color:var(--ok)}
+.msg.er{display:block;background:rgba(192,57,43,.12);color:var(--er)}
+ul{margin:6px 0 0;padding-left:18px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.empty{color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <b>CESOP XML</b>
+  <span class="tab on" id="tGen">1. Generate</span>
+  <span class="tab" id="tSub">2. Submission</span>
+  <span class="tab" id="tRes">3. Resubmission</span>
+  <span class="tab" id="tRec">4. Records</span>
+</header>
+<main id="pGen">
+  <section>
+    <div class="card">
+      <h2>Step 1: Import files</h2>
+      <div class="drop" id="dCsv" data-accept=".csv">Drop <b>payments CSV</b> here or click to choose<div class="fn"></div></div>
+      <div class="drop" id="dJson" data-accept=".json">Drop <b>config JSON</b> here or click to choose<div class="fn"></div></div>
+      <button id="bGen" disabled>Generate CESOP XML</button>
+      <div class="msg" id="mGen"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>Created in the report file</h2>
+      <div id="created" class="empty">Nothing generated yet.</div>
+      <div class="row">
+        <button id="bVal" disabled>Validate</button>
+        <button id="bDl" class="sec" disabled>Download report.xml</button>
+      </div>
+      <div class="msg" id="mVal"></div>
+    </div>
+
+    <div class="card">
+      <h2>Validate any XML file (without generating)</h2>
+      <div class="drop" id="dXml" data-accept=".xml">Drop <b>XML file</b> here or click to choose<div class="fn"></div></div>
+      <button id="bVal2" disabled>Validate this file</button>
+      <div class="msg" id="mVal2"></div>
+    </div>
+  </section>
+</main>
+
+<main id="pSub" hidden>
+  <section>
+    <div class="card">
+      <h2>Step 1: Choose the XML to submit</h2>
+      <p style="margin:0 0 8px"><b>Option A:</b> use the XML from the Generate page (<span id="genName"></span>)</p>
+      <button id="bUseGen" class="sec" disabled>Use generated report.xml</button>
+      <p style="margin:16px 0 8px"><b>Option B:</b> drop a different XML file</p>
+      <div class="drop" id="dSub" data-accept=".xml">Drop <b>XML file</b> here or click to choose<div class="fn"></div></div>
+      <div id="sSrc" class="empty"></div>
+    </div>
+    <div class="card">
+      <h2>Created in the selected XML file</h2>
+      <div id="sCreated" class="empty">No file selected.</div>
+      <div class="row"><button id="bSub" disabled>Submission</button></div>
+      <div class="msg" id="mSub"></div>
+    </div>
+  </section>
+  <section>
+    <div class="card">
+      <h2>Status record (reply from POST /api/cesop/submissions)</h2>
+      <div id="sRec" class="empty">Not submitted yet.</div>
+    </div>
+    <div class="card" id="sRespCard" hidden>
+      <h2>Record the authority answer</h2>
+      <select id="rStatus"><option>ACCEPTED</option><option>REJECTED</option></select>
+      <input type="text" id="rMsg" placeholder="Response message, for example test">
+      <button id="bResp">Record response</button>
+      <div class="msg" id="mResp"></div>
+    </div>
+  </section>
+</main>
+
+<main id="pRes" hidden>
+  <section>
+    <div class="card">
+      <h2>Step 1: Authority response</h2>
+      <select id="rsSub"></select>
+      <select id="rsStatus"><option>ACCEPTED</option><option>REJECTED</option></select>
+      <input type="text" id="rsMsg" placeholder="Response message (optional)">
+      <button id="bRsRec" class="sec" disabled>Record this answer on the server</button>
+      <div class="msg" id="mRsRec"></div>
+      <div id="rsRecord" class="empty" style="margin-top:12px">Choose a submission.</div>
+    </div>
+    <div class="card" id="cCorr">
+      <h2>Step 2a: Correct the old file (CESOP101)</h2>
+      <select id="cAct"><option>DELETE_PAYEE</option><option>CORRECT_PAYEE</option><option>CORRECT_PSP</option></select>
+      <select id="cDoc"></select>
+      <textarea id="cJson" rows="4" hidden></textarea>
+      <button id="bCorr" disabled>Create correction XML</button>
+      <div class="msg" id="mCorr"></div>
+    </div>
+    <div class="card" id="cRej" hidden>
+      <h2>Step 2: Old rejected file</h2>
+      <div id="rejMsg" class="empty" style="margin-bottom:8px"></div>
+      <div id="rejSrc" style="margin-bottom:8px"></div>
+      <div class="drop" id="dOld" data-accept=".xml" hidden>Drop the <b>old rejected XML</b> here<div class="fn"></div></div>
+      <button id="bFix" disabled>Correct XML file</button>
+      <div class="msg" id="mFix"></div>
+    </div>
+    <div class="card">
+      <h2 id="hNew">Step 2b: Or drop a new resubmission file</h2>
+      <div class="drop" id="dRes" data-accept=".xml">Drop <b>new XML file</b> here or click to choose<div class="fn"></div></div>
+    </div>
+  </section>
+  <section>
+    <div class="card">
+      <h2>Created in the resubmission file</h2>
+      <div id="rsCreated" class="empty">Nothing created yet.</div>
+      <div class="row"><button id="bRsDl" class="sec" disabled>Download XML</button><button id="bRsVal" disabled>Validate</button><button id="bRsSub" disabled>Submission</button></div>
+      <div class="msg" id="mRsVal"></div>
+      <div class="msg" id="mRsSub"></div>
+    </div>
+    <div class="card">
+      <h2>Status record of the resubmission</h2>
+      <div id="rsStatusRec" class="empty">Not submitted yet.</div>
+    </div>
+  </section>
+</main>
+
+<main id="pRec" hidden style="grid-template-columns:1fr">
+  <section>
+    <div class="card">
+      <h2>Generate records <small style="color:var(--mut)">(kept in this browser)</small></h2>
+      <div id="recGen" class="empty">None yet.</div>
+      <div class="row"><button id="bClr" class="sec">Clear generate records</button></div>
+    </div>
+    <div class="card">
+      <h2>Server records</h2>
+      <div class="row" style="margin:0 0 12px"><button id="bShowSub">Show submission records</button><button id="bShowRes">Show resubmission records</button></div>
+      <div id="recView" class="empty">Choose a button. You will see each company and the country it reported to. Click a company to see all its records.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+const API = "/api/cesop";
+const $ = id => document.getElementById(id);
+const files = {csv:null, json:null, xml:null};
+let generated = null; // {text, name}
+
+// ---- drag and drop ----
+function setupDrop(el, key, after){
+  const inp = document.createElement("input");
+  inp.type = "file"; inp.accept = el.dataset.accept; inp.hidden = true;
+  el.appendChild(inp);
+  const take = f => { if(!f) return; files[key] = f; el.classList.add("has"); el.querySelector(".fn").textContent = f.name; after(); };
+  el.addEventListener("click", e => { if(e.target !== inp) inp.click(); });
+  inp.addEventListener("change", () => take(inp.files[0]));
+  ["dragenter","dragover"].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.classList.add("over"); }));
+  ["dragleave","drop"].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.classList.remove("over"); }));
+  el.addEventListener("drop", e => take(e.dataTransfer.files[0]));
+}
+setupDrop($("dCsv"), "csv", refresh);
+setupDrop($("dJson"), "json", refresh);
+setupDrop($("dXml"), "xml", refresh);
+function refresh(){
+  $("bGen").disabled = !(files.csv && files.json);
+  $("bVal2").disabled = !files.xml;
+}
+
+function show(id, cls, html){ const m = $(id); m.className = "msg " + cls; m.innerHTML = html; }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// ---- read created values from the real generated XML ----
+function vals(doc, name){
+  return [...doc.getElementsByTagNameNS("*", name)].map(e => e.textContent.trim());
+}
+function renderCreated(xml, tid="created"){
+  const doc = new DOMParser().parseFromString(xml, "application/xml");
+  if(doc.getElementsByTagName("parsererror").length){ $(tid).innerHTML = "The XML could not be read."; return; }
+  const rows = [];
+  const add = (label, arr) => arr.forEach((v,i) => rows.push([arr.length > 1 && /DocRefId/.test(label) ? label + " (payee " + (i+1) + ")" : label, v]));
+  add("MessageRefId", vals(doc,"MessageRefId"));
+  add("MessageTypeIndic", vals(doc,"MessageTypeIndic"));
+  add("CorrMessageRefId", vals(doc,"CorrMessageRefId"));
+  add("payee DocRefId", vals(doc,"DocRefId"));
+  add("CorrDocRefId", vals(doc,"CorrDocRefId"));
+  add("DocTypeIndic", vals(doc,"DocTypeIndic"));
+  add("Timestamp", vals(doc,"Timestamp"));
+  add("creationTime", vals(doc,"creationTime"));
+  add("transferticketId", vals(doc,"transferticketId"));
+  rows.push(["Payees in file", String(doc.getElementsByTagNameNS("*","ReportedPayee").length)]);
+  rows.push(["Transactions in file", String(doc.getElementsByTagNameNS("*","ReportedTransaction").length)]);
+
+  // uniqueness check on the IDs
+  const ids = [...vals(doc,"MessageRefId"), ...vals(doc,"DocRefId"), ...vals(doc,"transferticketId")];
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const unique = new Set(ids).size === ids.length;
+  const allUuid = ids.every(i => uuid.test(i));
+  rows.push(["IDs unique / UUID format", (unique ? "unique" : "DUPLICATE FOUND") + " / " + (allUuid ? "UUID" : "not all UUID")]);
+
+  $(tid).className = "";
+  $(tid).innerHTML = "<table><tr><th>Created</th><th>Your value</th></tr>" +
+    rows.map(r => "<tr><th>" + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>").join("") + "</table>";
+}
+
+// ---- generate ----
+$("bGen").onclick = async () => {
+  $("bGen").disabled = true; show("mGen","", ""); $("mGen").style.display = "none";
+  $("mVal").className = "msg";
+  try{
+    const fd = new FormData();
+    fd.append("payments", files.csv, files.csv.name);
+    fd.append("config", new File([files.json], files.json.name, {type:"application/json"}));
+    const r = await fetch(API + "/collect/export", {method:"POST", body:fd});
+    const text = await r.text();
+    if(!r.ok) throw new Error(text || ("HTTP " + r.status));
+    generated = {text, name:"report.xml"}; addGenRecord(text, "report.xml");
+    renderCreated(text);
+    $("bVal").disabled = false; $("bDl").disabled = false;
+    show("mGen","ok","XML generated. Press Validate on the right.");
+  }catch(e){
+    generated = null; $("bVal").disabled = $("bDl").disabled = true;
+    show("mGen","er","Generate failed: " + esc(e.message));
+  }
+  refresh();
+};
+
+$("bDl").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([generated.text], {type:"application/xml"}));
+  a.download = generated.name; a.click();
+};
+
+// ---- validate (shared) ----
+async function validate(file, msgId, btn){
+  btn.disabled = true; show(msgId,"","Validating..."); $(msgId).style.display = "block";
+  try{
+    const fd = new FormData(); fd.append("file", file, file.name);
+    const r = await fetch(API + "/validate", {method:"POST", body:fd});
+    const j = await r.json();
+    const issues = (j.issues || []).map(i => "<li>" + esc(typeof i === "string" ? i : JSON.stringify(i)) + "</li>").join("");
+    if(j.valid) show(msgId,"ok","VALID. Errors: " + j.errorCount + ", warnings: " + j.warningCount + (issues ? "<ul>" + issues + "</ul>" : ""));
+    else show(msgId,"er","NOT VALID. Errors: " + j.errorCount + ", warnings: " + j.warningCount + "<ul>" + issues + "</ul>");
+  }catch(e){ show(msgId,"er","Validation failed: " + esc(e.message)); }
+  btn.disabled = false;
+}
+$("bVal").onclick = () => validate(new File([generated.text], generated.name, {type:"application/xml"}), "mVal", $("bVal"));
+$("bVal2").onclick = () => validate(files.xml, "mVal2", $("bVal2"));
+
+// ---- tabs ----
+function go(p){
+  for(const [k,id,t] of [["gen","pGen","tGen"],["sub","pSub","tSub"],["res","pRes","tRes"],["rec","pRec","tRec"]]){ $(id).hidden = p !== k; $(t).classList.toggle("on", p === k); }
+  if(p === "sub"){ $("bUseGen").disabled = !generated; $("genName").textContent = generated ? "ready" : "none generated yet"; }
+  if(p === "res") loadList();
+  if(p === "rec") loadRecords();
+}
+$("tGen").onclick = () => go("gen"); $("tSub").onclick = () => go("sub"); $("tRes").onclick = () => go("res"); $("tRec").onclick = () => go("rec");
+
+// ---- submission ----
+let subFile = null, subId = null;
+async function pick(f){
+  subFile = f; subId = null;
+  $("sSrc").textContent = "Selected: " + f.name;
+  $("sRec").className = "empty"; $("sRec").textContent = "Not submitted yet.";
+  $("sRespCard").hidden = true; $("mSub").className = "msg"; $("mResp").className = "msg";
+  renderCreated(await f.text(), "sCreated");
+  $("bSub").disabled = false;
+}
+setupDrop($("dSub"), "sub", () => pick(files.sub));
+$("bUseGen").onclick = () => pick(new File([generated.text], generated.name, {type:"application/xml"}));
+
+const ORDER = ["messageRefId","messageTypeIndic","transmittingCountry","quarter","year","status","channel","note","responseMessage","payeeDocRefIds","createdAt","updatedAt"];
+function renderStatus(j, tid="sRec"){
+  const keys = [...ORDER.filter(k => k in j), ...Object.keys(j).filter(k => !ORDER.includes(k))];
+  const fmt = v => v === null || v === undefined ? "null" : (typeof v === "object" ? JSON.stringify(v) : String(v));
+  $(tid).className = "";
+  $(tid).innerHTML = "<table><tr><th>Created</th><th>Your value</th></tr>" +
+    keys.map(k => "<tr><th>" + esc(k) + "</th><td>" + esc(fmt(j[k])) + "</td></tr>").join("") + "</table>";
+}
+$("bSub").onclick = async () => {
+  $("bSub").disabled = true; show("mSub", "", "Submitting...");
+  try{
+    const fd = new FormData(); fd.append("file", subFile, subFile.name);
+    const r = await fetch(API + "/submissions", {method:"POST", body:fd});
+    const t = await r.text();
+    if(!r.ok) throw new Error(t || ("HTTP " + r.status));
+    const j = JSON.parse(t);
+    subId = j.messageRefId; saveXml(subId, await subFile.text()); rememberCompany(subId, xmlStore[subId]); renderStatus(j); $("sRespCard").hidden = false;
+    show("mSub", "ok", "Submitted. The status record on the right is the server reply.");
+  }catch(e){ show("mSub", "er", "Submission failed: " + esc(e.message)); }
+  $("bSub").disabled = false;
+};
+$("bResp").onclick = async () => {
+  $("bResp").disabled = true;
+  try{
+    const r = await fetch(API + "/submissions/" + subId + "/response", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({status:$("rStatus").value, message:$("rMsg").value})});
+    if(!r.ok) throw new Error(await r.text() || ("HTTP " + r.status));
+    const g = await fetch(API + "/submissions/" + subId);
+    renderStatus(await g.json());
+    show("mResp", "ok", "Response recorded. The status record is reloaded from the server.");
+  }catch(e){ show("mResp", "er", "Failed: " + esc(e.message)); }
+  $("bResp").disabled = false;
+};
+
+// ---- resubmission ----
+const xmlStore = {}; let oldText = null;
+const XK = "cesopXml:";
+function saveXml(id, text){ xmlStore[id] = text; try{ localStorage.setItem(XK + id, text); }catch(e){} }
+function oldXml(id){ if(xmlStore[id]) return xmlStore[id]; try{ return localStorage.getItem(XK + id); }catch(e){ return null; } } let curRec = null, resXml = null;
+const sh = v => v ? String(v).slice(0,8) + "…" : "";
+async function loadList(){
+  try{
+    const a = await (await fetch(API + "/submissions")).json();
+    const keep = $("rsSub").value;
+    $("rsSub").innerHTML = '<option value="">-- choose a submission --</option>' + (Array.isArray(a) ? a : []).map(x =>
+      '<option value="' + esc(x.messageRefId) + '">' + esc(sh(x.messageRefId)) + " · " + esc(x.messageTypeIndic) + " · " + esc(x.status) + "</option>").join("");
+    $("rsSub").value = keep;
+  }catch(e){ $("rsRecord").textContent = "Could not load submissions: " + e.message; }
+}
+function applyMode(){
+  const rej = $("rsStatus").value === "REJECTED";
+  $("cCorr").hidden = rej; $("cRej").hidden = !rej; if(rej) refreshRej();
+  $("hNew").textContent = rej ? "Step 3 (optional): Or drop a different new resubmission file" : "Step 2b: Or drop a new resubmission file";
+}
+function resetRes(){
+  resXml = null; $("rsCreated").className = "empty"; $("rsCreated").textContent = "Nothing created yet.";
+  $("rsStatusRec").className = "empty"; $("rsStatusRec").textContent = "Not submitted yet.";
+  $("bRsVal").disabled = $("bRsSub").disabled = true; ["mRsVal","mRsSub","mCorr","mFix"].forEach(i => $(i).className = "msg");
+}
+$("rsSub").onchange = async () => {
+  resetRes(); curRec = null; $("bRsRec").disabled = $("bCorr").disabled = true;
+  if(!$("rsSub").value){ $("rsRecord").className = "empty"; $("rsRecord").textContent = "Choose a submission."; return; }
+  curRec = await (await fetch(API + "/submissions/" + $("rsSub").value)).json();
+  await fetchStored(curRec.messageRefId);
+  renderStatus(curRec, "rsRecord");
+  if(["ACCEPTED","REJECTED"].includes(curRec.status)) $("rsStatus").value = curRec.status;
+  $("cDoc").innerHTML = (curRec.payeeDocRefIds || []).map(d => "<option>" + esc(d) + "</option>").join("");
+  $("bRsRec").disabled = $("bCorr").disabled = false; applyMode();
+};
+$("rsStatus").onchange = applyMode;
+$("cAct").onchange = () => {
+  const a = $("cAct").value, t = $("cJson");
+  t.hidden = a === "DELETE_PAYEE"; $("cDoc").hidden = a === "CORRECT_PSP";
+  t.value = a === "CORRECT_PAYEE" ? '[{"transactionIdentifier":"","refund":true}]'
+          : a === "CORRECT_PSP" ? '{"idType":"BIC","id":"TRSYDEFFXXX","name":"360 TREASURY SYSTEMS AG","nameType":"LEGAL"}' : "";
+};
+$("bRsRec").onclick = async () => {
+  try{
+    const r = await fetch(API + "/submissions/" + curRec.messageRefId + "/response", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({status:$("rsStatus").value, message:$("rsMsg").value})});
+    if(!r.ok) throw new Error(await r.text() || ("HTTP " + r.status));
+    curRec = await (await fetch(API + "/submissions/" + curRec.messageRefId)).json();
+    renderStatus(curRec, "rsRecord"); loadList(); show("mRsRec","ok","Answer recorded.");
+  }catch(e){ show("mRsRec","er","Failed: " + esc(e.message)); }
+};
+$("bCorr").onclick = async () => {
+  const a = $("cAct").value, body = {action:a};
+  try{
+    if(a !== "CORRECT_PSP") body.targetDocRefId = $("cDoc").value;
+    if(a === "CORRECT_PAYEE") body.transactionPatches = JSON.parse($("cJson").value);
+    if(a === "CORRECT_PSP") body.reportingPsp = JSON.parse($("cJson").value);
+    const r = await fetch(API + "/submissions/" + curRec.messageRefId + "/correction", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
+    const t = await r.text();
+    if(!r.ok) throw new Error(t || ("HTTP " + r.status));
+    setRes(t, "correction.xml"); show("mCorr","ok","Correction XML created.");
+  }catch(e){ show("mCorr","er","Failed: " + esc(e.message)); }
+};
+setupDrop($("dRes"), "res", async () => { setRes(await files.res.text(), files.res.name); });
+
+function setRes(text, name){
+  resetRes(); resXml = {text, name}; renderCompare(text);
+  $("bRsVal").disabled = $("bRsSub").disabled = $("bRsDl").disabled = false;
+}
+function renderCompare(xml){
+  const P = t => new DOMParser().parseFromString(t, "application/xml"), n = P(xml);
+  const ox = curRec ? oldXml(curRec.messageRefId) : null; const o = ox ? P(ox) : null;
+  const one = (d,k) => d ? (vals(d,k)[0] || "") : "";
+  const od = curRec ? (curRec.payeeDocRefIds || []) : [];
+  const rows = [];
+  const type = one(n,"MessageTypeIndic"), mid = one(n,"MessageRefId"), cmid = one(n,"CorrMessageRefId"), dt = one(n,"DocTypeIndic"), cdoc = one(n,"CorrDocRefId");
+  rows.push(["MessageTypeIndic", type, curRec ? "Was " + curRec.messageTypeIndic : ""]);
+  rows.push(["New MessageRefId", mid, curRec ? (mid !== curRec.messageRefId ? "New. Original was " + sh(curRec.messageRefId) : "SAME as original, must be new") : ""]);
+  rows.push(["CorrMessageRefId", cmid || "(not present)", !cmid ? "Not a correction message" : curRec && cmid === curRec.messageRefId ? "Points to the original message" : "Does not match the selected original"]);
+  vals(n,"DocRefId").forEach((d,i,a) => rows.push(["New payee DocRefId" + (a.length > 1 ? " " + (i+1) : ""), d, od.length ? (od.includes(d) ? "SAME as an original, must be new" : "New. Original was " + sh(od[0])) : ""]));
+  rows.push(["DocTypeIndic", type === "CESOP101" ? dt + (dt === "CESOP3" ? " (delete)" : dt === "CESOP2" ? " (correct)" : "") : dt, one(o,"DocTypeIndic") ? "Was " + one(o,"DocTypeIndic") : "Original XML not loaded in this session"]);
+  rows.push(["CorrDocRefId", cdoc || "(not present)", !cdoc ? "Not a correction record" : od.includes(cdoc) ? "Points to the original payee record" : "Does not match the original payee record"]);
+  for(const k of ["Timestamp","creationTime"]){ const v = one(n,k), ov = one(o,k);
+    rows.push(["New " + k, v, ov ? (v > ov ? "Later than original (" + ov + ")" : "NOT later than original (" + ov + ")") : "Original XML not loaded in this session"]); }
+  const tt = one(n,"transferticketId"), ot = one(o,"transferticketId");
+  rows.push(["New transferticketId", tt, ot ? (tt !== ot ? "New. Original was " + sh(ot) : "SAME as original") : "Original XML not loaded in this session"]);
+  rows.push(["Payees / transactions", n.getElementsByTagNameNS("*","ReportedPayee").length + " / " + n.getElementsByTagNameNS("*","ReportedTransaction").length,
+    o ? "Was " + o.getElementsByTagNameNS("*","ReportedPayee").length + " / " + o.getElementsByTagNameNS("*","ReportedTransaction").length : ""]);
+  const ids = [mid, ...vals(n,"DocRefId"), tt]; 
+  rows.push(["IDs unique", new Set(ids).size === ids.length ? "unique" : "DUPLICATE FOUND", ""]);
+  $("rsCreated").className = "";
+  $("rsCreated").innerHTML = '<table class="cmp"><tr><th>Created</th><th>Your value</th><th>Compared with the original</th></tr>' +
+    rows.map(r => "<tr><th>" + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td><td>" + esc(r[2]) + "</td></tr>").join("") + "</table>";
+}
+$("bRsVal").onclick = () => validate(new File([resXml.text], resXml.name, {type:"application/xml"}), "mRsVal", $("bRsVal"));
+$("bRsSub").onclick = async () => {
+  $("bRsSub").disabled = true; show("mRsSub","","Submitting...");
+  try{
+    const fd = new FormData(); fd.append("file", new File([resXml.text], resXml.name, {type:"application/xml"}));
+    const r = await fetch(API + "/submissions", {method:"POST", body:fd}); const t = await r.text();
+    if(!r.ok) throw new Error(t || ("HTTP " + r.status));
+    const j = JSON.parse(t); saveXml(j.messageRefId, resXml.text); rememberCompany(j.messageRefId, resXml.text); renderStatus(j, "rsStatusRec");
+    show("mRsSub","ok","Submitted. The status record below is the server reply."); loadList();
+  }catch(e){ show("mRsSub","er","Submission failed: " + esc(e.message)); }
+  $("bRsSub").disabled = false;
+};
+
+// ---- records tab ----
+const KEY = "cesopGenRecords";
+function genLog(){ try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }catch(e){ return []; } }
+function addGenRecord(xml, name){
+  const d = new DOMParser().parseFromString(xml, "application/xml");
+  const rows = [];
+  for(const k of ["MessageRefId","MessageTypeIndic","DocRefId","DocTypeIndic","Timestamp","creationTime","transferticketId"])
+    vals(d, k).forEach(v => rows.push([k === "DocRefId" ? "payee DocRefId" : k, v]));
+  const log = genLog(); log.unshift({t:new Date().toISOString(), name, rows});
+  try{ localStorage.setItem(KEY, JSON.stringify(log.slice(0, 30))); }catch(e){}
+}
+function tbl(pairs){ return "<table>" + pairs.map(r => "<tr><th>" + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>").join("") + "</table>"; }
+function statusPairs(j){
+  const keys = [...ORDER.filter(k => k in j), ...Object.keys(j).filter(k => !ORDER.includes(k))];
+  return keys.map(k => [k, j[k] === null || j[k] === undefined ? "null" : typeof j[k] === "object" ? JSON.stringify(j[k]) : String(j[k])]);
+}
+function listHtml(arr){
+  return arr.length ? arr.map(j => "<details style='margin-bottom:8px'><summary>" + esc(sh(j.messageRefId)) + " · " + esc(j.messageTypeIndic) + " · " + esc(j.status) + " · " + esc(j.updatedAt || j.createdAt || "") + "</summary>" + tbl(statusPairs(j)) + "</details>").join("") : "None yet.";
+}
+async function loadRecords(){
+  const g = genLog();
+  $("recGen").className = g.length ? "" : "empty";
+  $("recGen").innerHTML = g.length ? g.map(x => "<details style='margin-bottom:8px'><summary>" + esc(x.t) + " · " + esc(x.name) + "</summary>" + tbl(x.rows) + "</details>").join("") : "None yet.";
+}
+$("bClr").onclick = () => { try{ localStorage.removeItem(KEY); }catch(e){} loadRecords(); };
+
+// ---- company records ----
+const CK = "cesopCompanies"; let recKind = null, recGroups = {};
+const compMap = () => { try{ return JSON.parse(localStorage.getItem(CK) || "{}"); }catch(e){ return {}; } };
+function rememberCompany(id, xml){
+  const m = compMap(); let name = "", pid = "";
+  try{
+    const d = new DOMParser().parseFromString(xml, "application/xml");
+    const r = d.getElementsByTagNameNS("*","ReportingPSP")[0];
+    if(r){ name = (r.getElementsByTagNameNS("*","Name")[0] || {}).textContent || ""; pid = (r.getElementsByTagNameNS("*","PSPId")[0] || {}).textContent || ""; }
+    if(!name){ const c = vals(d,"CorrMessageRefId")[0]; if(c && m[c]){ name = m[c].name; pid = m[c].pid; } }
+  }catch(e){}
+  if(name){ m[id] = {name:name.trim(), pid:pid.trim()}; try{ localStorage.setItem(CK, JSON.stringify(m)); }catch(e){} }
+}
+async function showRecords(kind){
+  recKind = kind; const box = $("recView"); box.className = ""; box.textContent = "Loading...";
+  try{
+    const a = await (await fetch(API + "/submissions")).json();
+    const all = (Array.isArray(a) ? a : []).filter(j => (j.messageTypeIndic === "CESOP101") === (kind === "res"))
+      .sort((x,y) => String(y.createdAt).localeCompare(String(x.createdAt)));
+    const m = compMap(); recGroups = {};
+    all.forEach(j => {
+      const name = m[j.messageRefId] ? m[j.messageRefId].name : "Unknown company";
+      const key = name + "|" + (j.transmittingCountry || "");
+      (recGroups[key] = recGroups[key] || {name, country:j.transmittingCountry || "?", items:[]}).items.push(j);
+    });
+    const keys = Object.keys(recGroups);
+    box.innerHTML = keys.length ? keys.map(k => '<button class="sec" style="display:block;width:100%;text-align:left;margin-bottom:8px" data-k="' + esc(k) + '">' +
+      esc(recGroups[k].name) + " · reported to " + esc(recGroups[k].country) + " · " + recGroups[k].items.length + " record(s)</button>").join("") : "None yet.";
+    box.querySelectorAll("button[data-k]").forEach(b => b.onclick = () => showCompany(b.dataset.k));
+  }catch(e){ box.textContent = "Could not load: " + e.message; }
+}
+function showCompany(k){
+  const g = recGroups[k];
+  $("recView").innerHTML = '<button class="sec" id="bBack">Back to companies</button><h3 style="margin:12px 0">' + esc(g.name) + " · reported to " + esc(g.country) + "</h3>" + listHtml(g.items);
+  $("bBack").onclick = () => showRecords(recKind);
+}
+$("bShowSub").onclick = () => showRecords("sub"); $("bShowRes").onclick = () => showRecords("res");
+
+// ---- fetch the stored XML of a record from the server ----
+let fetchInfo = "";
+async function fetchStored(id){
+  fetchInfo = ""; if(oldXml(id)) return;
+  for(const dir of ["submissions","outbox"]){
+    try{
+      const r = await fetch("/stored/" + dir + "/" + id + ".xml");
+      fetchInfo += "/stored/" + dir + ": HTTP " + r.status + "; ";
+      if(!r.ok) continue;
+      const t = await r.text();
+      if(t.trim().startsWith("<") && !/^<!doctype|^<html/i.test(t.trim())){ saveXml(id, t); return; }
+    }catch(e){ fetchInfo += "/stored/" + dir + ": " + e.message + "; "; }
+  }
+}
+// ---- rejected message: correct the old file by code ----
+function refreshRej(){
+  if(!curRec) return;
+  const x = oldXml(curRec.messageRefId); oldText = x;
+  $("rejMsg").textContent = curRec.responseMessage ? "Authority message: " + curRec.responseMessage : "No authority message recorded.";
+  $("rejSrc").textContent = x ? "Old file loaded automatically from the server record " + sh(curRec.messageRefId) + "." : "The old file could not be loaded from the server (" + (fetchInfo || "no answer") + "). Drop it below.";
+  $("dOld").hidden = !!x; $("bFix").disabled = !x;
+}
+setupDrop($("dOld"), "old", async () => { oldText = await files.old.text(); $("bFix").disabled = false; });
+function fixXml(text){
+  const d = new DOMParser().parseFromString(text, "application/xml");
+  if(d.getElementsByTagName("parsererror").length) throw new Error("The old file is not readable XML.");
+  const now = new Date().toISOString().slice(0,19);
+  const set = (k, f) => [...d.getElementsByTagNameNS("*", k)].forEach(e => e.textContent = f());
+  set("MessageRefId", () => crypto.randomUUID()); set("DocRefId", () => crypto.randomUUID()); set("transferticketId", () => crypto.randomUUID());
+  set("Timestamp", () => now + "Z"); set("creationTime", () => now);
+  let out = new XMLSerializer().serializeToString(d);
+  if(!out.startsWith("<?xml")) out = '<?xml version="1.0" encoding="UTF-8"?>\n' + out;
+  return out;
+}
+$("bFix").onclick = async () => {
+  $("bFix").disabled = true; show("mFix","","Checking the old file...");
+  try{
+    const fd = new FormData(); fd.append("file", new File([oldText], "old.xml", {type:"application/xml"}));
+    const vr = await (await fetch(API + "/validate", {method:"POST", body:fd})).json();
+    const li = (vr.issues || []).map(i => "<li>" + esc(i.message || JSON.stringify(i)) + "</li>").join("");
+    const fixed = fixXml(oldText), name = "corrected-" + (curRec ? curRec.messageRefId.slice(0,8) : "file") + ".xml";
+    setRes(fixed, name);
+    show("mFix","ok","Old file: " + (vr.valid ? "valid" : vr.errorCount + " error(s)") + (li ? "<ul>" + li + "</ul>" : "") +
+      "Corrected file created with new MessageRefId, DocRefIds, transferticketId and times. Validating it now.");
+    validate(new File([fixed], name, {type:"application/xml"}), "mRsVal", $("bRsVal"));
+  }catch(e){ show("mFix","er","Failed: " + esc(e.message)); }
+  $("bFix").disabled = false;
+};
+$("bRsDl").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([resXml.text], {type:"application/xml"}));
+  a.download = resXml.name; a.click();
+};
+</script>
+</body>
+</html>
