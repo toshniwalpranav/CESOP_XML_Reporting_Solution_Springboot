@@ -48,6 +48,27 @@ public class CesopResubmissionService {
                 Payee base = req.payee() != null ? req.payee() : patch(target, req.transactionPatches());
                 payees.add(base.withDoc("CESOP2", base.docRefId(), target.docRefId()));
             }
+            case CORRECT_ALL_PAYEES -> {
+                List<TransactionPatch> patches = req.transactionPatches();
+                if (patches == null || patches.isEmpty()) {
+                    throw new IllegalArgumentException("'transactionPatches' is required for CORRECT_ALL_PAYEES");
+                }
+                for (TransactionPatch p : patches) {
+                    boolean found = om.payees().stream().anyMatch(py -> hasTx(py, p));
+                    if (!found) {
+                        throw new IllegalArgumentException("Transaction " + p.transactionIdentifier()
+                                + " not found in any payee of the original message");
+                    }
+                }
+                for (Payee target : om.payees()) {
+                    if (target.docRefId() == null || target.docRefId().isBlank()) {
+                        throw new IllegalArgumentException("A payee in the original message has no DocRefId");
+                    }
+                    List<TransactionPatch> mine = patches.stream().filter(p -> hasTx(target, p)).toList();
+                    Payee base = mine.isEmpty() ? target.withDoc(null, null, null) : patch(target, mine);
+                    payees.add(base.withDoc("CESOP2", base.docRefId(), target.docRefId()));
+                }
+            }
         }
 
         DipHeader oh = original.header();
@@ -58,6 +79,11 @@ public class CesopResubmissionService {
         Message cm = new Message(om.transmittingCountry(), "CESOP101", null, om.messageRefId(),
                 om.sendingPsp(), om.quarter(), om.year(), null, reportingPsp, payees);
         return exporter.export(new ExportRequest(h, cm), skipValidation);
+    }
+
+    private static boolean hasTx(Payee py, TransactionPatch p) {
+        return p.transactionIdentifier() != null && py.transactions() != null
+                && py.transactions().stream().anyMatch(t -> p.transactionIdentifier().equals(t.transactionIdentifier()));
     }
 
     private Payee findTarget(Message om, ResubmissionRequest req) {
