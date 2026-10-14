@@ -78,6 +78,7 @@ public class CesopXmlReader {
         }
         List<Account> accounts = new ArrayList<>();
         for (Element a : kids(p, CESOP, "AccountIdentifier")) {
+            if (isNilElement(a)) continue; // nil AccountIdentifier = payee has no account
             accounts.add(new Account(attr(a, "CountryCode"), attr(a, "type"), text(a)));
         }
         List<Transaction> tx = new ArrayList<>();
@@ -90,12 +91,18 @@ public class CesopXmlReader {
 
     private Address readAddress(Element a) {
         if (a == null) return null;
+        if (isNilElement(a)) return null; // xsi:nil="true" = no address available
         Element fix = kid(a, CM, "AddressFix");
         AddressFix f = fix == null ? null : new AddressFix(
                 text(fix, CM, "Street"), text(fix, CM, "BuildingIdentifier"), text(fix, CM, "SuiteIdentifier"),
                 text(fix, CM, "FloorIdentifier"), text(fix, CM, "DistrictName"), text(fix, CM, "POB"),
                 text(fix, CM, "PostCode"), text(fix, CM, "City"), text(fix, CM, "CountrySubentity"));
-        return new Address(text(a, CM, "CountryCode"), attr(a, "legalAddressType"), text(a, CM, "AddressFree"), f);
+        String countryCode = text(a, CM, "CountryCode");
+        String free = text(a, CM, "AddressFree");
+        boolean noCountry = countryCode == null || countryCode.isBlank();
+        boolean noFree = free == null || free.isBlank();
+        if (noCountry && noFree && f == null) return null; // empty Address element
+        return new Address(countryCode, attr(a, "legalAddressType"), free, f);
     }
 
     private Transaction readTx(Element t) {
@@ -111,6 +118,14 @@ public class CesopXmlReader {
                 toBool(text(t, CESOP, "InitiatedAtPhysicalPremisesOfMerchant")),
                 text(payer), attr(payer, "PayerMSSource"),
                 text(kid(t, CESOP, "PSPRole"), CM, "PSPRoleType"));
+    }
+
+    /** true when the element carries xsi:nil="true" (or "1"). */
+    private static boolean isNilElement(Element e) {
+        if (e == null) return false;
+        String ns = "http://www.w3.org/2001/XMLSchema-instance";
+        String v = e.hasAttributeNS(ns, "nil") ? e.getAttributeNS(ns, "nil") : e.getAttribute("xsi:nil");
+        return "true".equals(v) || "1".equals(v);
     }
 
     private static Integer toInt(String s) {

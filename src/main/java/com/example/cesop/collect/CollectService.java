@@ -100,7 +100,11 @@ public class CollectService {
             if (p.tx.payerMS().equals(p.accCountry)) { notCross++; continue; }
 
             crossRows++;
-            Group g = groups.computeIfAbsent(p.accType + "|" + p.account, k -> new Group());
+            // A payee without a payment account is grouped by name and country instead of by account.
+            String key = p.account.isEmpty()
+                    ? "NOACCOUNT|" + p.name + "|" + p.country
+                    : p.accType + "|" + p.account;
+            Group g = groups.computeIfAbsent(key, k -> new Group());
             if (g.first == null) g.first = p;
             g.txs.add(p.tx);
             if (countRefunds || !Boolean.TRUE.equals(p.tx.refund())) g.counted++;
@@ -130,8 +134,10 @@ public class CollectService {
                 : new Address(f.addrCountry == null ? f.country : f.addrCountry, "CESOP303", f.addrFree, null);
         List<Vat> vats = f.vat == null ? List.of()
                 : List.of(new Vat(f.vatCountry == null ? f.country : f.vatCountry, f.vat));
+        List<Account> accounts = f.account.isEmpty() ? List.of()
+                : List.of(new Account(f.accCountry, f.accType, f.account));
         return new Payee(f.name, "BUSINESS", f.country, address, f.email, f.web, vats,
-                List.of(new Account(f.accCountry, f.accType, f.account)), txs, "CESOP1", null, null);
+                accounts, txs, "CESOP1", null, null);
     }
 
     private Pay toPay(Map<String, String> v) {
@@ -145,19 +151,33 @@ public class CollectService {
         String payer = req(v, "payer_country").toUpperCase();
 
         p.name = req(v, "payee_name");
-        p.accType = v.getOrDefault("payee_account_type", "IBAN");
-        p.account = req(v, "payee_account").replace(" ", "").toUpperCase();
-        String ac = v.get("payee_account_country");
-        if (ac == null && "IBAN".equalsIgnoreCase(p.accType) && p.account.length() >= 2) ac = p.account.substring(0, 2);
-        if (ac == null) throw new IllegalArgumentException("payee_account_country is required when the account is not an IBAN");
-        p.accCountry = ac.toUpperCase();
-        p.country = v.containsKey("payee_country") ? v.get("payee_country").toUpperCase() : p.accCountry;
-        p.vat = v.get("payee_vat");
-        p.vatCountry = v.containsKey("payee_vat_country") ? v.get("payee_vat_country").toUpperCase() : null;
-        p.email = v.get("payee_email");
-        p.web = v.get("payee_web");
-        p.addrFree = v.get("payee_address");
-        p.addrCountry = v.containsKey("payee_address_country") ? v.get("payee_address_country").toUpperCase() : null;
+        String acct = opt(v, "payee_account");
+        p.account = acct == null ? "" : acct.replace(" ", "").toUpperCase();
+        String countryCol = opt(v, "payee_country");
+        if (p.account.isEmpty()) {
+            // Payee without a payment account: the account is written as an empty (nil) element.
+            // The country cannot come from an IBAN, so payee_country is required.
+            if (countryCol == null) throw new IllegalArgumentException("payee_country is required when payee_account is empty");
+            p.accType = "";
+            p.accCountry = countryCol.toUpperCase();
+            p.country = p.accCountry;
+        } else {
+            String at = opt(v, "payee_account_type");
+            p.accType = at == null ? "IBAN" : at;
+            String ac = opt(v, "payee_account_country");
+            if (ac == null && "IBAN".equalsIgnoreCase(p.accType) && p.account.length() >= 2) ac = p.account.substring(0, 2);
+            if (ac == null) throw new IllegalArgumentException("payee_account_country is required when the account is not an IBAN");
+            p.accCountry = ac.toUpperCase();
+            p.country = countryCol != null ? countryCol.toUpperCase() : p.accCountry;
+        }
+        p.vat = opt(v, "payee_vat");
+        String vc = opt(v, "payee_vat_country");
+        p.vatCountry = vc == null ? null : vc.toUpperCase();
+        p.email = opt(v, "payee_email");
+        p.web = opt(v, "payee_web");
+        p.addrFree = opt(v, "payee_address");
+        String adc = opt(v, "payee_address_country");
+        p.addrCountry = adc == null ? null : adc.toUpperCase();
 
         p.tx = new Transaction(refund, id, when.truncatedTo(ChronoUnit.SECONDS).toString(), v.get("date_type"),
                 amount, ccy, req(v, "payment_method"), v.get("payment_method_other"),
@@ -169,6 +189,12 @@ public class CollectService {
         String s = v.get(key);
         if (s == null) throw new IllegalArgumentException("missing value for " + key);
         return s;
+    }
+
+    /** Optional value: null when the column is missing or the cell is empty. */
+    private static String opt(Map<String, String> v, String key) {
+        String s = v.get(key);
+        return s == null || s.isBlank() ? null : s.trim();
     }
 
     private static BigDecimal parseAmount(String s) {

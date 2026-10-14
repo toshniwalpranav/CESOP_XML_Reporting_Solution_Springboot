@@ -275,7 +275,8 @@ public class CesopValidationService {
         else if (!CC_RE.matcher(country).matches()) out.add(err("FORMAT", path + "/Country", "Must be ISO alpha-2 upper case: " + country));
 
         Element addr = kid(p, CESOP, "Address");
-        if (addr != null) {
+        // An Address marked xsi:nil="true" means "not available" (allowed by the XSD): nothing to check inside it.
+        if (addr != null && !isNil(addr)) {
             String ap = path + "/Address";
             String cc = text(addr, CM, "CountryCode");
             if (cc == null || !CC_RE.matcher(cc).matches()) out.add(err("FORMAT", ap + "/CountryCode", "CountryCode must be ISO alpha-2 upper case"));
@@ -408,6 +409,14 @@ public class CesopValidationService {
 
     private static Issue err(String code, String path, String msg) { return new Issue(Severity.ERROR, code, path, msg); }
     private static Issue warn(String code, String path, String msg) { return new Issue(Severity.WARNING, code, path, msg); }
+
+    /** True when the element carries xsi:nil="true" (the XSD's way of saying "not available"). */
+    private static boolean isNil(Element e) {
+        if (e == null) return false;
+        String ns = "http://www.w3.org/2001/XMLSchema-instance";
+        String v = e.hasAttributeNS(ns, "nil") ? e.getAttributeNS(ns, "nil") : e.getAttribute("xsi:nil");
+        return "true".equals(v) || "1".equals(v);
+    }
 
     private static Integer intOrNull(String s) {
         try { return s == null ? null : Integer.valueOf(s); } catch (NumberFormatException e) { return null; }

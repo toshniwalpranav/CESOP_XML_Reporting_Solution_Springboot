@@ -1,4 +1,4 @@
-package com.example.cesop.model;
+﻿package com.example.cesop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
@@ -68,7 +68,9 @@ public final class CesopModel {
         /** Correct one ReportedPayee (DocTypeIndic CESOP2 + CorrDocRefId). */
         CORRECT_PAYEE,
         /** Delete one ReportedPayee (DocTypeIndic CESOP3 + CorrDocRefId, no transactions). */
-        DELETE_PAYEE
+        DELETE_PAYEE,
+        /** Correct every ReportedPayee (CESOP2 each); transactionPatches are applied where they match. */
+        CORRECT_ALL_PAYEES
     }
 
     /** Patch for an existing transaction (e.g. IsRefund false -> true). */
