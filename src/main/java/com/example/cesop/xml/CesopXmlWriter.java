@@ -103,21 +103,36 @@ public class CesopXmlWriter {
         Element e = el(d, parent, CESOP, "cesop", "ReportedPayee", null);
         el(d, e, CESOP, "cesop", "Name", p.name()).setAttribute("nameType", or(p.nameType(), "BUSINESS"));
         el(d, e, CESOP, "cesop", "Country", p.country());
+
+        // Address is required by the XSD (minOccurs=1, nillable): empty element when not available.
         if (p.address() != null) address(d, e, p.address());
+        else nilEl(d, e, "Address");
+
         if (p.email() != null) el(d, e, CESOP, "cesop", "EmailAddress", p.email());
         if (p.webPage() != null) el(d, e, CESOP, "cesop", "WebPage", p.webPage());
+
+        // TAXIdentification is required by the XSD (minOccurs=1, nillable).
         if (!nz(p.vatIds()).isEmpty()) {
             Element tax = el(d, e, CESOP, "cesop", "TAXIdentification", null);
             for (Vat v : p.vatIds()) {
                 Element vat = el(d, tax, CESOP, "cesop", "VATId", v.value());
                 set(vat, "issuedBy", v.issuedBy());
             }
+        } else {
+            nilEl(d, e, "TAXIdentification");
         }
-        for (Account a : nz(p.accounts())) {
-            Element acc = el(d, e, CESOP, "cesop", "AccountIdentifier", a.value());
-            if (a.countryCode() != null) acc.setAttribute("CountryCode", a.countryCode());
-            acc.setAttribute("type", or(a.type(), "IBAN"));
+
+        // AccountIdentifier is required by the XSD (minOccurs=1, nillable).
+        if (nz(p.accounts()).isEmpty()) {
+            nilEl(d, e, "AccountIdentifier");
+        } else {
+            for (Account a : p.accounts()) {
+                Element acc = el(d, e, CESOP, "cesop", "AccountIdentifier", a.value());
+                if (a.countryCode() != null) acc.setAttribute("CountryCode", a.countryCode());
+                acc.setAttribute("type", or(a.type(), "IBAN"));
+            }
         }
+
         for (Transaction t : nz(p.transactions())) transaction(d, e, t);
 
         Element doc = el(d, e, CESOP, "cesop", "DocSpec", null);
@@ -173,6 +188,12 @@ public class CesopXmlWriter {
 
     private static void set(Element e, String name, String value) {
         if (value != null && !value.isBlank()) e.setAttribute(name, value);
+    }
+
+    /** Empty element marked xsi:nil="true", used when the XSD requires an element but no value is available. */
+    private static void nilEl(Document d, Element parent, String name) {
+        Element x = el(d, parent, CESOP, "cesop", name, null);
+        x.setAttributeNS(XSI, "xsi:nil", "true");
     }
 
     private static Element el(Document d, Element parent, String ns, String prefix, String name, String text) {
