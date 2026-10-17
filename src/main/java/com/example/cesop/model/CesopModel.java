@@ -1,4 +1,4 @@
-﻿package com.example.cesop.model;
+package com.example.cesop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
